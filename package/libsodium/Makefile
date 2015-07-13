@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libsodium
-PKG_VERSION:=0.7.0
-PKG_RELEASE:=1.E
+PKG_VERSION:=1.0.3
+PKG_RELEASE:=1.F
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://download.dnscrypt.org/libsodium/releases
-PKG_MD5SUM:=b9029bf810c4b5a8acc3afec1286a36a
+PKG_MD5SUM:=
 
 PKG_INSTALL:=1
 PKG_FIXUP:=autoreconf
