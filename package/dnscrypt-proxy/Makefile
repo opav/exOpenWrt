@@ -1,12 +1,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnscrypt-proxy
-PKG_VERSION:=1.4.0
-PKG_RELEASE:=5.E
+PKG_VERSION:=1.5.0
+PKG_RELEASE:=5.F
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=http://download.dnscrypt.org/dnscrypt-proxy
-PKG_MD5SUM:=40b5b73f5042330b86084460d7c839c6
+PKG_MD5SUM:=
 
 PKG_INSTALL:=1
 PKG_FIXUP:=autoreconf
@@ -19,7 +19,7 @@ define Package/dnscrypt-proxy/Default
   SUBMENU:=IP Addresses and Names
   DEPENDS:=+libsodium
   URL:=http://dnscrypt.org/
-  MAINTAINER:=Black Roland https://github.com/black-roland/exOpenWrt
+  MAINTAINER:=opav https://github.com/opav/exOpenWrt
 endef
 
 define Package/dnscrypt-proxy
@@ -36,20 +36,21 @@ define Package/dnscrypt-proxy/description
 	a client and its first-level resolver.
 endef
 
-define Package/hostip
+define Package/plugins
   $(call Package/dnscrypt-proxy/Default)
-  TITLE:=Resolver to IPv4 or IPv6 addresses
+  TITLE:=plugins
 endef
 
-define Package/hostip/description
-	The DNSCrypt proxy ships with a simple tool named hostip that resolves a name
-	to IPv4 or IPv6 addresses.
+define Package/plugins/description
+	dnscrypt-proxy can be extended with plugins. 
+	A plugin can implement pre-filters and post-filters.
 endef
 
 define Build/Configure
 	$(call Build/Configure/Default, \
 		--prefix=/usr \
 		--disable-ssp \
+		--enable-plugins \
 	)
 endef
 
@@ -80,11 +81,11 @@ define Package/dnscrypt-proxy/conffiles
 /etc/config/dnscrypt-proxy
 endef
 
-define Package/hostip/install
+define Package/plugins/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/hostip $(1)/usr/bin/
+	$(CP) $(PKG_INSTALL_DIR)/usr/bin/plugins $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,dnscrypt-proxy))
-$(eval $(call BuildPackage,hostip))
+$(eval $(call BuildPackage,plugins))
 
